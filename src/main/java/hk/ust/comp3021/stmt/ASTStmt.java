@@ -35,7 +35,8 @@ public abstract class ASTStmt extends ASTElement {
      */
     public static ASTStmt createASTStmt(XMLNode node) {
         // TODO: complete the definition of the method `createASTStmt`
-        return null;
+    	ASTStmt new_ASTStmt = new ASTStmt(node); // construct a new ASTStmt object by given node
+        return new_ASTStmt;
     }
 
     /**
