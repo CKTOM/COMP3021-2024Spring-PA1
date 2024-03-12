@@ -1,5 +1,6 @@
 package hk.ust.comp3021;
 
+import hk.ust.comp3021.misc.ASTEnumOp;
 import hk.ust.comp3021.stmt.*;
 import hk.ust.comp3021.utils.*;
 import java.io.*;

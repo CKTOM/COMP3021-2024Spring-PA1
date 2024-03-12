@@ -16,18 +16,23 @@ public class ASTArguments extends ASTElement {
         public ASTArg(XMLNode node) {
             // TODO: complete the definition of the constructor. Define the class as the subclass of ASTElement.
             super(node);
+            this.arg = node.getAttribute("arg");
+            this.annotation = ASTExpr.createASTExpr(node.getChildByIdx(0));
         }
 
         @Override
         public ArrayList<ASTElement> getChildren() {
             // TODO: complete the definition of the method `getChildren`
-            return null;
+            ArrayList<ASTElement> return_Children_list = new ArrayList<>();
+            return_Children_list.add(this.annotation);
+            return return_Children_list;
         }
 
         @Override
         public int countChildren() {
             // TODO: complete the definition of the method `countChildren`
-            return 0;
+            int count = 1 + this.annotation.countChildren();
+            return count;
         }
 
         @Override
@@ -61,6 +66,14 @@ public class ASTArguments extends ASTElement {
     public ASTArguments(XMLNode node) {
         // TODO: complete the definition of the constructor. Define the class as the subclass of ASTElement.
         super(node);
+        for(XMLNode child : node.getChildByIdx(0).getChildren())
+        {
+            this.args.add(new ASTArg(child));
+        }
+        for(XMLNode child : node.getChildByIdx(1).getChildren())
+        {
+            this.defaults.add(ASTExpr.createASTExpr(child));
+        }
     }
 
 
@@ -69,19 +82,36 @@ public class ASTArguments extends ASTElement {
     */
     public int getParamNum() {
         // TODO: complete the definition of the method `getParamNum`
-        return 0;
+        int para = this.args.size();
+        for (ASTArg child : this.args)
+        {
+            para += child.countChildren();
+        }
+        return para;
     }
 
     @Override
     public ArrayList<ASTElement> getChildren() {
         // TODO: complete the definition of the method `getChildren`
-        return null;
+        ArrayList<ASTElement> return_Children_list = new ArrayList<>();
+        return_Children_list.addAll(this.args);
+        return_Children_list.addAll(this.defaults);
+        return return_Children_list;
     }
 
     @Override
     public int countChildren() {
         // TODO: complete the definition of the method `countChildren`
-        return 0;
+        int count = this.defaults.size() + this.args.size();
+        for (ASTExpr child : this.defaults)
+        {
+            count += child.countChildren();
+        }
+        for (ASTArg child : this.args)
+        {
+            count += child.countChildren();
+        }
+        return count;
     }
 
     @Override

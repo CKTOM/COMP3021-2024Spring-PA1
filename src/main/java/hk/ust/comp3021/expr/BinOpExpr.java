@@ -13,18 +13,28 @@ public class BinOpExpr extends ASTExpr {
     public BinOpExpr(XMLNode node) {
         // TODO: complete the definition of the constructor. Define the class as the subclass of ASTExpr.
         super(node);
+        this.exprType = ExprType.BinOp;
+        this.left = ASTExpr.createASTExpr(node.getChildByIdx(0));
+        this.op = new ASTEnumOp(node.getChildByIdx(1));
+        this.right = ASTExpr.createASTExpr(node.getChildByIdx(2));
     }
 
     @Override
     public ArrayList<ASTElement> getChildren() {
         // TODO: complete the definition of the method `getChildren`
-        return null;
+        ArrayList<ASTElement> return_child_list = new ArrayList<ASTElement>();
+        return_child_list.add(this.left);
+        return_child_list.add(this.right);
+        return return_child_list;
     }
 
     @Override
     public int countChildren() {
         // TODO: complete the definition of the method `countChildren`
-        return 0;
+        int count = 2;
+        count += this.left.countChildren();
+        count += this.right.countChildren();
+        return count;
     }
 
     @Override
@@ -39,8 +49,8 @@ public class BinOpExpr extends ASTExpr {
      * (2) changing the type signature of `public` methods
      * (3) changing the modifiers of the fields and methods, e.g., changing a modifier from "private" to "public"
      */
-    public void yourMethod() {
-
+    public ASTEnumOp returnop() {
+        return this.op;
     }
 
 }

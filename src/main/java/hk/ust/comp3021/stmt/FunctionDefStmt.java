@@ -19,6 +19,18 @@ public class FunctionDefStmt extends ASTStmt {
     public FunctionDefStmt(XMLNode node) {
         // TODO: complete the definition of the constructor. Define the class as the subclass of ASTExpr.
         super(node);
+        this.stmtType = StmtType.FunctionDef;
+        this.name = node.getAttribute("Name");
+        this.args = new ASTArguments(node.getChildByIdx(0));
+        for (XMLNode child : node.getChildByIdx(1).getChildren())
+        {
+            this.body.add(ASTStmt.createASTStmt(child));
+        }
+        for (XMLNode child : node.getChildByIdx(2).getChildren())
+        {
+            this.decoratorList.add(ASTExpr.createASTExpr(child));
+        }
+        this.returns = ASTExpr.createASTExpr(node.getChildByIdx(3));
     }
 
     /*
@@ -43,12 +55,28 @@ public class FunctionDefStmt extends ASTStmt {
     @Override
     public ArrayList<ASTElement> getChildren() {
         // TODO: complete the definition of the method `getChildren`
-        return null;
+        ArrayList<ASTElement> return_Children_list = new ArrayList<ASTElement>();
+        return_Children_list.add(this.returns);
+        return_Children_list.add(this.args);
+        return_Children_list.addAll(this.body);
+        return_Children_list.addAll(this.decoratorList);
+        return return_Children_list;
     }
     @Override
     public int countChildren() {
         // TODO: complete the definition of the method `countChildren`
-        return 0;
+        int count = 4;
+        count += this.args.countChildren();
+        count += this.returns.countChildren();
+        for (ASTStmt child : this.body)
+        {
+            count += child.countChildren();
+        }
+        for (ASTExpr child : this.decoratorList)
+        {
+            count += child.countChildren();
+        }
+        return count;
     }
 
     @Override

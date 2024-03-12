@@ -13,17 +13,24 @@ public class SubscriptExpr extends ASTExpr {
     public SubscriptExpr(XMLNode node) {
         // TODO: complete the definition of the constructor. Define the class as the subclass of ASTExpr.
         super(node);
+        this.exprType = ExprType.Subscript;
+        this.value = ASTExpr.createASTExpr(node.getChildByIdx(0));
+        this.slice = ASTExpr.createASTExpr(node.getChildByIdx(1));
+        this.ctx = new ASTEnumOp(node.getChildByIdx(2));
     }
 
     @Override
     public ArrayList<ASTElement> getChildren() {
         // TODO: complete the definition of the method `getChildren`
-        return null;
+        ArrayList<ASTElement> return_child_list = new ArrayList<ASTElement>();
+        return_child_list.add(this.slice);
+        return_child_list.add(this.value);
+        return return_child_list;
     }
     @Override
     public int countChildren() {
         // TODO: complete the definition of the method `countChildren`
-        return 0;
+        return 2 + this.slice.countChildren() + this.value.countChildren();
     }
 
     @Override

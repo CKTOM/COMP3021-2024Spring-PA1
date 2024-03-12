@@ -12,18 +12,23 @@ public class UnaryOpExpr extends ASTExpr {
     public UnaryOpExpr(XMLNode node) {
         // TODO: complete the definition of the constructor. Define the class as the subclass of ASTExpr.
         super(node);
+        this.exprType = ExprType.UnaryOp;
+        this.op = new ASTEnumOp(node.getChildByIdx(0));
+        this.operand = ASTExpr.createASTExpr(node.getChildByIdx(1));
     }
 
     @Override
     public ArrayList<ASTElement> getChildren() {
         // TODO: complete the definition of the method `getChildren`
-        return null;
+        ArrayList<ASTElement> return_child_list = new ArrayList<ASTElement>();
+        return_child_list.add(this.operand);
+        return return_child_list;
     }
 
     @Override
     public int countChildren() {
         // TODO: complete the definition of the method `countChildren`
-        return 0;
+        return 1 + this.operand.countChildren();
     }
 
     @Override
@@ -38,7 +43,8 @@ public class UnaryOpExpr extends ASTExpr {
      * (2) changing the type signature of `public` methods
      * (3) changing the modifiers of the fields and methods, e.g., changing a modifier from "private" to "public"
      */
-    public void yourMethod() {
-
+    public ASTEnumOp returnop() {
+        return this.op;
     }
+
 }

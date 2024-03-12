@@ -15,18 +15,23 @@ public class ASTKeyWord extends ASTElement {
     public ASTKeyWord(XMLNode node) {
         // TODO: complete the definition of the constructor. Define the class as the subclass of ASTElement.
         super(node);
+        this.arg = node.getAttribute("arg");
+        this.value = ASTExpr.createASTExpr(node.getChildByIdx(0));
     }
 
     @Override
     public ArrayList<ASTElement> getChildren() {
         // TODO: complete the definition of the method `getChildren`
-        return null;
+        ArrayList<ASTElement> return_Children_list = new ArrayList<>();
+        return_Children_list.add(this.value);
+        return return_Children_list;
     }
 
     @Override
     public int countChildren() {
         // TODO: complete the definition of the method `countChildren`
-        return 0;
+        int count = 1 + this.value.countChildren();
+        return count;
     }
 
     @Override

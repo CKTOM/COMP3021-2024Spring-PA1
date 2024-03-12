@@ -35,8 +35,41 @@ public abstract class ASTStmt extends ASTElement {
      */
     public static ASTStmt createASTStmt(XMLNode node) {
         // TODO: complete the definition of the method `createASTStmt`
-    	ASTStmt new_ASTStmt = new ASTStmt(node); // construct a new ASTStmt object by given node
-        return new_ASTStmt;
+        int index = 0;
+        String Type = node.getTagName();
+        for (StmtType the_stmtType : StmtType.values()) {
+            if (Type.equals(the_stmtType.name())) {
+                break;
+            }
+            index++;
+        }
+        switch (index) {
+            case 0:
+                return new FunctionDefStmt(node);
+            case 1:
+                return new ClassDefStmt(node);
+            case 2:
+                return new ReturnStmt(node);
+            case 3:
+                return new AssignStmt(node);
+            case 4:
+                return new AugAssignStmt(node);
+            case 5:
+                return new ForStmt(node);
+            case 6:
+                return new WhileStmt(node);
+            case 7:
+                return new IfStmt(node);
+            case 8:
+                return new ExprStmt(node);
+            case 9:
+                return new BreakStmt(node);
+            case 10:
+                return new ContinueStmt(node);
+            default:
+                System.out.println("Unknown statement type");
+        }
+        return null;
     }
 
     /**

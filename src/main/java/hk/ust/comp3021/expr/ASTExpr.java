@@ -1,6 +1,7 @@
 package hk.ust.comp3021.expr;
 
 import hk.ust.comp3021.misc.*;
+import hk.ust.comp3021.stmt.ASTStmt;
 import hk.ust.comp3021.utils.*;
 
 public abstract class ASTExpr extends ASTElement {
@@ -30,6 +31,40 @@ public abstract class ASTExpr extends ASTElement {
      */
     public static ASTExpr createASTExpr(XMLNode node) {
         // TODO: complete the definition of the method `createASTExpr`
+        int index = 0;
+        String Type = node.getTagName();
+        for (ExprType the_ExprType : ExprType.values()) {
+            if (Type.equals(the_ExprType.name())) {
+                break;
+            }
+            index++;
+        }
+        switch (index) {
+            case 0:
+                return new BoolOpExpr(node);
+            case 1:
+                return new BinOpExpr(node);
+            case 2:
+                return new UnaryOpExpr(node);
+            case 3:
+                return new CompareExpr(node);
+            case 4:
+                return new CallExpr(node);
+            case 5:
+                return new ConstantExpr(node);
+            case 6:
+                return new AttributeExpr(node);
+            case 7:
+                return new SubscriptExpr(node);
+            case 8:
+                return new NameExpr(node);
+            case 9:
+                return new ListExpr(node);
+            case 10:
+                return new TupleExpr(node);
+            default:
+                System.out.println("Unknown expression type");
+        }
         return null;
     }
 

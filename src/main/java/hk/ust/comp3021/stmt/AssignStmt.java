@@ -13,29 +13,34 @@ public class AssignStmt extends ASTStmt {
     public AssignStmt(XMLNode node) {
         // TODO: complete the definition of the constructor. Define the class as the subclass of ASTStmt.
         super(node);
-        targets = node.getChildren().get(0); // variable
-        value = node.getChildren().get(1);	// the expr class working
+        for(XMLNode child : node.getChildByIdx(0).getChildren())
+        {
+            this.targets.add(ASTExpr.createASTExpr(child));
+        }
+        this.value = ASTExpr.createASTExpr(node.getChildByIdx(1));
+        this.stmtType = ASTStmt.StmtType.Assign;
     }
 
     @Override
     public ArrayList<ASTElement> getChildren() {
         // TODO: complete the definition of the method `getChildren`
-    	ArrayList<ASTElement> return_Children_list = new ArrayList<ASTElemnt>;
-    	for (ASTElement Children : this.node.getChildren())
-    	{
-    		return_Children_list.add(Children);
-    	}
+    	ArrayList<ASTElement> return_Children_list = new ArrayList<>();
+        // how to get the children
+        return_Children_list.addAll(this.targets);
+        return_Children_list.add(this.value);
         return return_Children_list;
     }
 
     @Override
     public int countChildren() {
         // TODO: complete the definition of the method `countChildren`
-    	int count = 0;
-    	for (ASTElement Children : this.node.getChildren())
-    	{
-    		count ++;
-    	}
+        int count = 1;
+        count += this.value.countChildren();
+        count += this.targets.size();
+        for(ASTExpr child : this.targets)
+        {
+            count += child.countChildren();
+        }
         return count;
     }
     @Override

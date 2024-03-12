@@ -11,18 +11,27 @@ public class ListExpr extends ASTExpr {
     public ListExpr(XMLNode node) {
         // TODO: complete the definition of the constructor. Define the class as the subclass of ASTExpr.
         super(node);
+        this.exprType = ExprType.List;
+        for(XMLNode child : node.getChildByIdx(0).getChildren())
+        {
+            this.elts.add(ASTExpr.createASTExpr(child));
+        }
+        this.ctx = new ASTEnumOp(node.getChildByIdx(1));
     }
 
     @Override
     public ArrayList<ASTElement> getChildren() {
         // TODO: complete the definition of the method `getChildren`
-        return null;
+        ArrayList<ASTElement> return_child_list = new ArrayList<ASTElement>();
+        return_child_list.addAll(this.elts);
+        return return_child_list;
     }
 
     @Override
     public int countChildren() {
         // TODO: complete the definition of the method `countChildren`
-        return 0;
+        int count = this.elts.size();
+        return count;
     }
 
     @Override
